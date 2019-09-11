@@ -43,16 +43,19 @@ class Node
         int[] empt = _parent.findEmptyPlace();
         if(action == Action.UP)
         {
-
+            System.out.println("UP");
         }
         if(action == Action.DOWN)
         {
+            System.out.println("DOWN");
         }
         if(action == Action.LEFT)
         {
+            System.out.println("LEFT");
         }
         if(action == Action.RIGHT)
         {
+            System.out.println("RIGHT");
         }
 
 
