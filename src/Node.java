@@ -1,5 +1,3 @@
-import java.util.Set;
-
 /**Класс, описывающий вершину*/
 class Node
 {
@@ -49,7 +47,7 @@ class Node
      * @param _action - операция, изменяющая состояние
      * @param i - строка, в которой находится пустая клетка
      * @param j - столбец, в котором находится пустая клетка*/
-    private Node(Node _parent, Action _action, int i, int j)
+    Node(Node _parent, Action _action, int i, int j)
     {
         parent = _parent;
         action = _action;

@@ -1,5 +1,5 @@
 import java.util.Queue;
-
+/**Дерево поиска*/
 public class TreeSearch
 {
     /*
