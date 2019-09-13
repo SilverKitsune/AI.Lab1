@@ -1,12 +1,10 @@
+import java.util.Set;
 
 /**Класс, описывающий вершину*/
 class Node
 {
-    /*
-    TODO добавить:
-          тест на целевое состояние
-          метод раскрывающий вершину, который возвращает множество вершин
-    */
+    private static final int[][] GOAL = new int[][] {{4,8,1},{0,3,6},{2,7,5}};
+
     /**Состояние*/
     private int [][] state;
 
@@ -51,7 +49,7 @@ class Node
      * @param _action - операция, изменяющая состояние
      * @param i - строка, в которой находится пустая клетка
      * @param j - столбец, в котором находится пустая клетка*/
-    Node(Node _parent, Action _action, int i, int j)
+    private Node(Node _parent, Action _action, int i, int j)
     {
         parent = _parent;
         action = _action;
@@ -106,5 +104,32 @@ class Node
         System.out.println("RIGHT");
         state[i][j] = state[i][j-1];
         state[i][j-1] = 0;
+    }
+
+    /**Расскрытие вершины
+     * @return массив новых раскрытых вершин*/
+    Node[] makeChildren()
+    {
+        Node[] children = new Node [4];
+        int [] indx = this.findEmptyPlace();
+        if(indx[0] != 0)
+            children[0] = new Node(this,Action.UP,indx[0],indx[1]);
+        if(indx[0] != 2)
+            children[1] = new Node(this,Action.DOWN,indx[0],indx[1]);
+        if(indx[1] != 0)
+            children[2] = new Node(this,Action.LEFT,indx[0],indx[1]);
+        if(indx[1] != 2)
+            children[3] = new Node(this,Action.RIGHT,indx[0],indx[1]);
+        return children;
+    }
+
+    /**Проверка на целевое состояние*/
+    boolean isGoal()
+    {
+        for(int i = 0; i < 3; i++)
+            for(int j = 0; j < 3; j++)
+                if(GOAL[i][j]!= state[i][j])
+                    return false;
+        return true;
     }
 }
