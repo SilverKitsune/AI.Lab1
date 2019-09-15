@@ -1,4 +1,14 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
+
+/*TODO: Пошаговый режим
+*       Вывод:
+*              вновь добавленные вершины
+*              выявленные повторные вершины
+*              текущее состояние "каймы" (вершины, ожидающие раскрытия)
+*              текущая вершина
+*              факт достижения целевого состояния
+*/
 
 /**Дерево поиска*/
 public class TreeSearch
@@ -21,6 +31,8 @@ public class TreeSearch
         {
             if(queue.isEmpty()) return null;
             Node node = queue.poll();
+            System.out.println("Текущая");
+            node.returnState();
             if(node.isGoal())
                 return node;
             addNodes(makeChildren(node));
@@ -33,7 +45,7 @@ public class TreeSearch
     {
         for(int i = 0; i < 4; i++)
             if(nodes[i] != null && setOfStates.add(nodes[i]))
-            {queue.add(nodes[i]); nodes[i].returnState();}
+            {queue.add(nodes[i]); /*nodes[i].returnState();*/}
     }
 
     /**Расскрытие вершины
@@ -44,13 +56,13 @@ public class TreeSearch
         Node[] children = new Node [4];
         int [] index = node.findEmptyPlace();
         if(index[0] != 2)
-        { children[0] = new Node(node, Node.Action.UP,index[0],index[1]); children[0].returnState();}
+        { children[0] = new Node(node, Node.Action.UP,index[0],index[1]); /*children[0].returnState();*/}
         if(index[0] != 0)
-        {    children[1] = new Node(node, Node.Action.DOWN,index[0],index[1]); children[1].returnState();}
+        {    children[1] = new Node(node, Node.Action.DOWN,index[0],index[1]); /*children[1].returnState();*/}
         if(index[1] != 2)
-        {    children[2] = new Node(node, Node.Action.LEFT,index[0],index[1]); children[2].returnState();}
+        {    children[2] = new Node(node, Node.Action.LEFT,index[0],index[1]); /*children[2].returnState();*/}
         if(index[1] != 0)
-        {    children[3] = new Node(node, Node.Action.RIGHT,index[0],index[1]); children[3].returnState();}
+        {    children[3] = new Node(node, Node.Action.RIGHT,index[0],index[1]); /*children[3].returnState();*/}
 
         return children;
     }
@@ -60,6 +72,10 @@ public class TreeSearch
 
     public static void main(String[] args)
     {
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss");
+
         Node answer = new TreeSearch().rowSearch();
+        System.out.println("Началось в: " + formatForDateNow.format(dateNow));
     }
 }

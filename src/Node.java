@@ -1,8 +1,10 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**Класс, описывающий вершину*/
 class Node implements Comparable<Node>
 {
-    private static final int[][] GOAL = new int[][] {{1,2,3},{8,0,4},{7,6,5}};
+    private static final int[][] GOAL = new int[][] {{1,2,3},{8,0,4},{7,6,5}};//{{0,8,1},{4,3,6},{2,7,5}};
 
     /**Состояние*/
     private int [][] state;
@@ -32,16 +34,11 @@ class Node implements Comparable<Node>
     /**Глубина*/
     private int depth;
 
-    int[][] getState()
-    {
-        return state;
-    }
-
     void returnState()
     {
-        System.out.println(state[0][0]+" "+state[0][1]+" "+state[0][2]);
-        System.out.println(state[1][0]+" "+state[1][1]+" "+state[1][2]);
-        System.out.println(state[2][0]+" "+state[2][1]+" "+state[2][2]);
+        System.out.println(state[0][0]+""+state[0][1]+""+state[0][2]);
+        System.out.println(state[1][0]+""+state[1][1]+""+state[1][2]);
+        System.out.println(state[2][0]+""+state[2][1]+""+state[2][2]);
         System.out.println(" ");
 
     }
@@ -114,6 +111,10 @@ class Node implements Comparable<Node>
             for(int j = 0; j < 3; j++)
                 if(GOAL[i][j]!= state[i][j])
                     return false;
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("hh:mm:ss");
+
+        System.out.println("Закончилось в: " + formatForDateNow.format(dateNow));
         return true;
     }
 }
