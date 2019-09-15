@@ -1,13 +1,24 @@
+
 /**Класс, описывающий вершину*/
-class Node
+class Node implements Comparable<Node>
 {
-    private static final int[][] GOAL = new int[][] {{4,8,1},{0,3,6},{2,7,5}};
+    private static final int[][] GOAL = new int[][] {{1,2,3},{8,0,4},{7,6,5}};
 
     /**Состояние*/
     private int [][] state;
 
     /**Родитель вершины*/
     private Node parent;
+
+    @Override
+    public int compareTo(Node o)
+    {
+        for(int i = 0; i < 3; i++)
+            for(int j = 0; j < 3; j++)
+                if(state[i][j] != o.state[i][j])
+                    return -1;
+        return 0;
+    }
 
     /**Перечисление возможных операций*/
     public enum Action {UP, DOWN, LEFT, RIGHT}
@@ -21,9 +32,23 @@ class Node
     /**Глубина*/
     private int depth;
 
+    int[][] getState()
+    {
+        return state;
+    }
+
+    void returnState()
+    {
+        System.out.println(state[0][0]+" "+state[0][1]+" "+state[0][2]);
+        System.out.println(state[1][0]+" "+state[1][1]+" "+state[1][2]);
+        System.out.println(state[2][0]+" "+state[2][1]+" "+state[2][2]);
+        System.out.println(" ");
+
+    }
+
     /** Функция, возвращающая индекс пустой клетки на поле
      * @return индекс пустой клетки*/
-    private int[] findEmptyPlace()
+    int[] findEmptyPlace()
     {
         for(int i = 0; i < 3; i++)
             for(int j = 0; j < 3; j++)
@@ -53,74 +78,47 @@ class Node
         action = _action;
         depth = _parent.depth+1;
         cost = _parent.cost+1;
-        state = _parent.state;
         if(action == Action.UP)
-            this.action_UP(i,j);
+        {
+            System.out.println("UP");
+            this.state = new int[3][3];
+            for(int k = 0; k < 3; k++)
+                for(int l = 0; l < 3; l++)
+                    this.state[k][l] = _parent.state[k][l];
+            this.state[i][j] = this.state[i+1][j];
+            this.state[i+1][j] = 0;
+        }
         if(action == Action.DOWN)
-            this.action_DOWN(i,j);
+        {
+            System.out.println("DOWN");
+            this.state = new int[3][3];
+            for(int k = 0; k < 3; k++)
+                for(int l = 0; l < 3; l++)
+                    this.state[k][l] = _parent.state[k][l];
+            this.state[i][j] = this.state[i-1][j];
+            this.state[i-1][j] = 0;
+        }
         if(action == Action.LEFT)
-            this.action_LEFT(i,j);
+        {
+            System.out.println("LEFT");
+            this.state = new int[3][3];
+            for(int k = 0; k < 3; k++)
+                for(int l = 0; l < 3; l++)
+                    this.state[k][l] = _parent.state[k][l];
+            this.state[i][j] = this.state[i][j+1];
+            this.state[i][j+1] = 0;
+        }
         if(action == Action.RIGHT)
-            this.action_RIGHT(i,j);
+        {
+            System.out.println("RIGHT");
+            this.state = new int[3][3];
+            for(int k = 0; k < 3; k++)
+                for(int l = 0; l < 3; l++)
+                    this.state[k][l] = _parent.state[k][l];
+            this.state[i][j] = this.state[i][j-1];
+            this.state[i][j-1] = 0;
+        }
     }
-
-    /**Выполнение операции "Вверх"
-     * @param i - строка, в которой находится пустая клетка
-     * @param j - столбец, в котором находится пустая клетка*/
-    private void action_UP(int i, int j)
-    {
-        System.out.println("UP");
-        state[i][j] = state[i+1][j];
-        state[i+1][j] = 0;
-    }
-
-    /**Выполнение операции "Вниз"
-     * @param i - строка, в которой находится пустая клетка
-     * @param j - столбец, в котором находится пустая клетка*/
-    private void action_DOWN(int i, int j)
-    {
-        System.out.println("DOWN");
-        state[i][j] = state[i-1][j];
-        state[i-1][j] = 0;
-    }
-
-    /**Выполнение операции "Влево"
-     * @param i - строка, в которой находится пустая клетка
-     * @param j - столбец, в котором находится пустая клетка*/
-    private void action_LEFT(int i, int j)
-    {
-        System.out.println("LEFT");
-        state[i][j] = state[i][j+1];
-        state[i][j+1] = 0;
-    }
-
-    /**Выполнение операции "Вправо"
-     * @param i - строка, в которой находится пустая клетка
-     * @param j - столбец, в котором находится пустая клетка*/
-    private void action_RIGHT(int i, int j)
-    {
-        System.out.println("RIGHT");
-        state[i][j] = state[i][j-1];
-        state[i][j-1] = 0;
-    }
-
-    /**Расскрытие вершины
-     * @return массив новых раскрытых вершин*/
-    Node[] makeChildren()
-    {
-        Node[] children = new Node [4];
-        int [] indx = this.findEmptyPlace();
-        if(indx[0] != 0)
-            children[0] = new Node(this,Action.UP,indx[0],indx[1]);
-        if(indx[0] != 2)
-            children[1] = new Node(this,Action.DOWN,indx[0],indx[1]);
-        if(indx[1] != 0)
-            children[2] = new Node(this,Action.LEFT,indx[0],indx[1]);
-        if(indx[1] != 2)
-            children[3] = new Node(this,Action.RIGHT,indx[0],indx[1]);
-        return children;
-    }
-
     /**Проверка на целевое состояние*/
     boolean isGoal()
     {
