@@ -78,43 +78,31 @@ class Node implements Comparable<Node>
         action = _action;
         depth = _parent.depth+1;
         cost = _parent.cost+1;
+        this.state = new int[3][3];
+        for(int k = 0; k < 3; k++)
+            for(int l = 0; l < 3; l++)
+                this.state[k][l] = _parent.state[k][l];
         if(action == Action.UP)
         {
             System.out.println("UP");
-            this.state = new int[3][3];
-            for(int k = 0; k < 3; k++)
-                for(int l = 0; l < 3; l++)
-                    this.state[k][l] = _parent.state[k][l];
             this.state[i][j] = this.state[i+1][j];
             this.state[i+1][j] = 0;
         }
         if(action == Action.DOWN)
         {
             System.out.println("DOWN");
-            this.state = new int[3][3];
-            for(int k = 0; k < 3; k++)
-                for(int l = 0; l < 3; l++)
-                    this.state[k][l] = _parent.state[k][l];
             this.state[i][j] = this.state[i-1][j];
             this.state[i-1][j] = 0;
         }
         if(action == Action.LEFT)
         {
             System.out.println("LEFT");
-            this.state = new int[3][3];
-            for(int k = 0; k < 3; k++)
-                for(int l = 0; l < 3; l++)
-                    this.state[k][l] = _parent.state[k][l];
             this.state[i][j] = this.state[i][j+1];
             this.state[i][j+1] = 0;
         }
         if(action == Action.RIGHT)
         {
             System.out.println("RIGHT");
-            this.state = new int[3][3];
-            for(int k = 0; k < 3; k++)
-                for(int l = 0; l < 3; l++)
-                    this.state[k][l] = _parent.state[k][l];
             this.state[i][j] = this.state[i][j-1];
             this.state[i][j-1] = 0;
         }
